@@ -1,8 +1,5 @@
 package com.tlgservices.guestbook.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -33,7 +30,6 @@ public class Role {
 
     //@OneToMany(fetch = FetchType.EAGER, mappedBy = "userRole")
     @OneToMany(mappedBy = "userRole", fetch=FetchType.LAZY)
-    @JsonIgnore
     private List<User> users;
 
     public List<User> getUsers() {

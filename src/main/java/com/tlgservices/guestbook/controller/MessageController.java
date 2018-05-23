@@ -1,5 +1,8 @@
 package com.tlgservices.guestbook.controller;
 
+import com.tlgservices.guestbook.converter.EntityDTOConverter;
+import com.tlgservices.guestbook.dto.MessageDTO;
+import com.tlgservices.guestbook.dto.UserDTO;
 import com.tlgservices.guestbook.model.Message;
 import com.tlgservices.guestbook.model.User;
 import com.tlgservices.guestbook.service.MessageService;
@@ -9,46 +12,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest")
-public class MessageController {
+public class MessageController
+{
+    private final MessageService messageService;
+    private final UserService userService;
+    private final RoleService roleService;
 
-    final MessageService messageService;
-    final UserService userService;
-    final RoleService roleService;
+    private final EntityDTOConverter<User,UserDTO> userDTOConverter;
+    private final EntityDTOConverter<Message,MessageDTO> messageDTOConverter;
 
     @Autowired
-    public MessageController(MessageService messageService, UserService userService, RoleService roleService) {
+    public MessageController(MessageService messageService, UserService userService, RoleService roleService, EntityDTOConverter<User, UserDTO> userDTOConverter, EntityDTOConverter<Message, MessageDTO> messageDTOConverter) {
         this.messageService = messageService;
         this.userService = userService;
         this.roleService = roleService;
+        this.userDTOConverter = userDTOConverter;
+        this.messageDTOConverter = messageDTOConverter;
     }
 
     @RequestMapping("/messages")
-    public List<Message> getMessages()
+    public List<MessageDTO> getMessages()
     {
-        return messageService.getAllMessages();
+        return messageService.getAllMessages().stream().map((messageDTOConverter::convertToDTO)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/users/{roleid}/", method = RequestMethod.POST)
-    public void addUser(@RequestBody User user, @PathVariable long roleid)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    public void addUser(@RequestBody UserDTO userDTO)
     {
-        user.setUserRole(roleService.getRoleById(roleid));
-        userService.addUser(user);
+        userService.addUser(userDTOConverter.convertToEntity(userDTO));
     }
 
-    @RequestMapping(value = "/{userid}/message/", method = RequestMethod.POST)
-    public void addMessage(@PathVariable long userid, @RequestBody Message message)
+    @RequestMapping(value = "/messages", method = RequestMethod.POST)
+    public void addMessage(@RequestBody MessageDTO messageDTO)
     {
-        User user = userService.getUserById(userid);
-        message.setUser(user);
-        messageService.addMessage(message);
+        messageService.addMessage(messageDTOConverter.convertToEntity(messageDTO));
     }
 
     @RequestMapping("/users")
-    public List<User> getUsers()
+    public List<UserDTO> getUsers()
     {
-        return userService.getAllUsers();
+        return userService.getAllUsers().stream().map((userDTOConverter::convertToDTO)).collect(Collectors.toList());
     }
+
+
+
 }

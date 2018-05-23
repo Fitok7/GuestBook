@@ -7,8 +7,10 @@ import javax.persistence.*;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mes_seq_gen")
+    @SequenceGenerator(name = "mes_seq_gen", sequenceName = "message_sequence")
     private long id;
+
     private String message;
 
     @ManyToOne

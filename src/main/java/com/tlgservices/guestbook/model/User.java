@@ -1,6 +1,7 @@
 package com.tlgservices.guestbook.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tlgservices.guestbook.dto.UserDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
+    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_sequence")
     private long id;
     private String name;
 
@@ -54,26 +56,4 @@ public class User {
         this.messages = messages;
     }
 
-/*  @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }*/
 }

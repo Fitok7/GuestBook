@@ -4,10 +4,12 @@ import com.tlgservices.guestbook.dao.RoleDAO;
 import com.tlgservices.guestbook.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
