@@ -28,8 +28,8 @@ CREATE TABLE messages
 */
 
 --Test Data
-/*insert into roles values(100,'Admin');
+insert into roles values(100,'Admin');
 insert into roles values(101,'User');
-insert into users values(2000,'test_admin',100);
-insert into users values(2001,'test_user',101);
-insert into messages(id,message,user_id) values(MESSAGE_SEQUENCE.nextval,'test_message',2001);*/
+--insert into users values(2000,'test_admin',100);
+--insert into users values(2001,'test_user',101);
+--insert into messages(id,message,user_id) values(MESSAGE_SEQUENCE.nextval,'test_message',2001);

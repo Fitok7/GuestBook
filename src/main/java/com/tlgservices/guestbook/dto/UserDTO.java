@@ -5,8 +5,7 @@ public class UserDTO {
     private String name;
     private long roleID;
 
-    public UserDTO()
-    {
+    public UserDTO(){
     }
 
     public UserDTO(long id, String name, long roleID) {

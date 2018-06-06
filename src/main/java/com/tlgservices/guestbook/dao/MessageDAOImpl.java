@@ -1,6 +1,7 @@
 package com.tlgservices.guestbook.dao;
 
 import com.tlgservices.guestbook.model.Message;
+import org.hibernate.jpa.internal.util.LockModeTypeHelper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,4 +23,5 @@ public class MessageDAOImpl implements MessageDAO {
     public void addMessage(Message message) {
         em.persist(message);
     }
+
 }

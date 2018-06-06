@@ -21,7 +21,6 @@ public class User {
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private List<Message> messages;
 
     public long getId() {

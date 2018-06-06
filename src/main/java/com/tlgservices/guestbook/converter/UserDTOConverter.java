@@ -1,8 +1,8 @@
 package com.tlgservices.guestbook.converter;
 
+import com.tlgservices.guestbook.dao.RoleDAO;
 import com.tlgservices.guestbook.dto.UserDTO;
 import com.tlgservices.guestbook.model.User;
-import com.tlgservices.guestbook.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserDTOConverter implements EntityDTOConverter<User,UserDTO>{
 
 @Autowired
-RoleService roleService;
+private RoleDAO roleDAO;
 
     @Override
     public UserDTO convertToDTO(User user) {
@@ -20,9 +20,8 @@ RoleService roleService;
     @Override
     public User convertToEntity(UserDTO DTO) {
         User user = new User();
-        user.setId(DTO.getId());
         user.setName(DTO.getName());
-        user.setUserRole(roleService.getRoleById(DTO.getId()));
+        user.setUserRole(roleDAO.getRoleById(DTO.getRoleID()));
         return user;
     }
 
